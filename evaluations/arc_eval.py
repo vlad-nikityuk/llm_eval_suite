@@ -4,7 +4,7 @@ from datasets import load_dataset
 from tqdm import tqdm
 import re
 
-def evaluate_arc(model, sample_size=None):
+def evaluate_arc(model, sample_size=None, dry_run=False):
     """
     Evaluate the model on the AI2 ARC dataset.
 
@@ -17,6 +17,10 @@ def evaluate_arc(model, sample_size=None):
     # If sample_size is provided, select a subset of the dataset
     if sample_size:
         arc_dataset = arc_dataset.select(range(min(sample_size, len(arc_dataset))))
+
+    if dry_run:
+        print(f"Dry run: Would evaluate {len(arc_dataset)} samples from ARC dataset.")
+        return None
 
     correct = 0
     total = 0

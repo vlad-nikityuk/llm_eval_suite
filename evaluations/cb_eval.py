@@ -3,7 +3,7 @@
 from datasets import load_dataset
 from tqdm import tqdm
 
-def evaluate_cb(model, sample_size=None):
+def evaluate_cb(model, sample_size=None, dry_run=False):
     """
     Evaluate the model on the CB dataset (CommitmentBank).
 
@@ -16,6 +16,10 @@ def evaluate_cb(model, sample_size=None):
     # If sample_size is provided, select a subset of the dataset
     if sample_size:
         cb_dataset = cb_dataset.select(range(min(sample_size, len(cb_dataset))))
+
+    if dry_run:
+        print(f"Dry run: Would evaluate {len(cb_dataset)} samples from CB dataset.")
+        return None
 
     correct = 0
     total = 0

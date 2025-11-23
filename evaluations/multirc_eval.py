@@ -4,19 +4,25 @@ from datasets import load_dataset
 from tqdm import tqdm
 import re
 
-def evaluate_multirc(model, sample_size=None):
+def evaluate_multirc(model, sample_size=None, dry_run=False):
     """
     Evaluate the model on the MultiRC dataset.
 
     Args:
         model: The model object with a `chat` method.
         sample_size: Number of samples to use for evaluation (default is the entire dataset).
+        dry_run: If True, skips actual evaluation and only simulates the process.
     """
     multirc_dataset = load_dataset("super_glue", "multirc", split="validation")
+    
 
     # If sample_size is provided, select a subset of the dataset
     if sample_size:
         multirc_dataset = multirc_dataset.select(range(min(sample_size, len(multirc_dataset))))
+
+    if dry_run:
+        print(f"Dry run: Would evaluate {len(multirc_dataset)} samples from MultiRC dataset.")
+        return None
 
     correct = 0
     total = 0

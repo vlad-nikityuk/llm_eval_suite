@@ -19,6 +19,7 @@ def main():
     parser.add_argument('--evaluations', nargs='+', default=['boolq', 'hellaswag', 'winogrande', 'rte', 'piqa', 'commonsenseqa', 'multirc', 'arc', 'cb'], help='List of evaluations to run')
     parser.add_argument('--sample-size', type=int, default=None, help='Number of samples to evaluate from each dataset')
     parser.add_argument('--custom-client-host', type=str, default=None, help='Host for custom client (if not specified, uses standard module)')
+    parser.add_argument('--dry-run', action='store_true', help='If set, runs in dry-run mode without actual evaluation')
     args = parser.parse_args()
 
     # Load the model
@@ -41,8 +42,9 @@ def main():
     for eval_name in args.evaluations:
         if eval_name in evaluation_functions:
             print(f"Starting evaluation: {eval_name}")
-            accuracy = evaluation_functions[eval_name](model, sample_size=args.sample_size)
-            print(f"{eval_name} Accuracy: {accuracy:.2f}%\n")
+            accuracy = evaluation_functions[eval_name](model, sample_size=args.sample_size, dry_run=args.dry_run)
+            if not args.dry_run and accuracy is not None:
+                print(f"{eval_name} Accuracy: {accuracy:.2f}%\n")
         else:
             print(f"Evaluation {eval_name} not found.")
 

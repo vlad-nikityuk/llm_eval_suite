@@ -3,7 +3,7 @@
 from datasets import load_dataset
 from tqdm import tqdm
 
-def evaluate_rte(model, sample_size=None):
+def evaluate_rte(model, sample_size=None, dry_run=False):
     """
     Evaluate the model on the RTE (Recognizing Textual Entailment) dataset.
 
@@ -16,6 +16,10 @@ def evaluate_rte(model, sample_size=None):
     # If sample_size is provided, select a subset of the dataset
     if sample_size:
         rte_dataset = rte_dataset.select(range(min(sample_size, len(rte_dataset))))
+
+    if dry_run:
+        print(f"Dry run: Would evaluate {len(rte_dataset)} samples from RTE dataset.")
+        return None
 
     correct = 0
     total = 0

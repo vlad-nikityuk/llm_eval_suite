@@ -4,7 +4,7 @@ from datasets import load_dataset
 from tqdm import tqdm
 import re
 
-def evaluate_hellaswag(model, sample_size=None):
+def evaluate_hellaswag(model, sample_size=None, dry_run=False):
     """
     Evaluate the model on the HellaSwag dataset.
 
@@ -18,6 +18,10 @@ def evaluate_hellaswag(model, sample_size=None):
     # If sample_size is provided, select a subset of the dataset
     if sample_size:
         hellaswag_dataset = hellaswag_dataset.select(range(min(sample_size, len(hellaswag_dataset))))
+
+    if dry_run:
+        print(f"Dry run: Would evaluate {len(hellaswag_dataset)} samples from HellaSwag dataset.")
+        return None
 
     correct = 0
     total = 0

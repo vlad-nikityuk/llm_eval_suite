@@ -4,7 +4,7 @@ from datasets import load_dataset
 from tqdm import tqdm
 import re
 
-def evaluate_commonsenseqa(model, sample_size=None):
+def evaluate_commonsenseqa(model, sample_size=None, dry_run=False):
     """
     Evaluate the model on the CommonSenseQA dataset.
 
@@ -17,6 +17,10 @@ def evaluate_commonsenseqa(model, sample_size=None):
     # If sample_size is provided, select a subset of the dataset
     if sample_size:
         commonsenseqa_dataset = commonsenseqa_dataset.select(range(min(sample_size, len(commonsenseqa_dataset))))
+
+    if dry_run:
+        print(f"Dry run: Would evaluate {len(commonsenseqa_dataset)} samples from CommonSenseQA dataset.")
+        return None
 
     correct = 0
     total = 0

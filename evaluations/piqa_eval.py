@@ -3,7 +3,7 @@
 from datasets import load_dataset
 from tqdm import tqdm
 
-def evaluate_piqa(model, sample_size=None):
+def evaluate_piqa(model, sample_size=None, dry_run=False):
     """
     Evaluate the model on the PIQA dataset.
 
@@ -16,6 +16,10 @@ def evaluate_piqa(model, sample_size=None):
     # If sample_size is provided, select a subset of the dataset
     if sample_size:
         piqa_dataset = piqa_dataset.select(range(min(sample_size, len(piqa_dataset))))
+
+    if dry_run:
+        print(f"Dry run: Would evaluate {len(piqa_dataset)} samples from PIQA dataset.")
+        return None
 
     correct = 0
     total = 0

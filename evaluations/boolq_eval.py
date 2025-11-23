@@ -4,7 +4,7 @@ from datasets import load_dataset
 from tqdm import tqdm
 import re
 
-def evaluate_boolq(model, sample_size=None):
+def evaluate_boolq(model, sample_size=None, dry_run=False):
     """
     Evaluate the model on the BoolQ dataset.
 
@@ -18,6 +18,10 @@ def evaluate_boolq(model, sample_size=None):
     # If sample_size is provided, select a subset of the dataset
     if sample_size:
         boolq_dataset = boolq_dataset.select(range(min(sample_size, len(boolq_dataset))))
+    
+    if dry_run:
+        print(f"Dry run: Would evaluate {len(boolq_dataset)} samples from BoolQ dataset.")
+        return None
 
     correct = 0
     total = 0
